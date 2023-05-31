@@ -1,11 +1,13 @@
+//importacion de la libreria useState para gestionar los estados, y UseEffect para hacer los cambios secundarios
 import React, {useState, useEffect} from 'react'
+//importacion de la libreria Link para poder usar y navegar en las diferentes rutas
 import { Link } from 'react-router-dom'
+//librerias que se ocupan para manipular los datos(libros) en FireBase
 import {collection,getDocs, deleteDoc, doc} from 'firebase/firestore'
 import { db } from '../firebaseConfig/firebase'
 
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
-const MySwal = withReactContent(Swal)
+
+
 
 const Show = () => {
     //configurar los hooks
@@ -28,35 +30,47 @@ const Show = () => {
         await deleteDoc(usuariosDoc)
         getUsuarios()
     }
-    //funcion de confirmacion para sweet alert 2
+
     //usamos useEffect
     useEffect(() => {
         getUsuarios()
     }, [])
     //devolvemos vista de nuestro componente
+
   return (
     <>
+     {/* Creacion de un contenedor */}
     <div className='container'>
+         {/* Creacion filas y columnas */}
       <div className='row'>
         <div className='col'>
           <div className="d-grid gap-2">
-            <Link to="/create" className='btn btn-secondary mt-2 mb-2'>Create</Link>    
+             {/* Creacion del boton Crear usuario y Redireccionando al componente create */}
+            <Link to="/create" className='btn btn-success mt-2 mb-2'>Crear Usuario</Link>    
           </div>
-          <table className='table table-dark table-hover'>
+        {/* Creacion de la tabla y los elementos */}
+          <table className='table  table-succes table-hover'>
             <thead>
               <tr>
-                <th>Description</th>
-                <th>Stock</th>
-                <th>Actions</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Domicilio</th>
+                <th>RFC</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
+                 {/* iterando los datos con map */}
               { usuarios.map( (usuario) => (
                 <tr key={usuario.id}>
-                  <td>{usuario.description}</td>
-                  <td>{usuario.stock}</td>
+                  <td>{usuario.nombre}</td>
+                  <td>{usuario.correo}</td>
+                  <td>{usuario.domicilio}</td>
+                  <td>{usuario.rfc}</td>
                   <td>
+                     {/* botton para editar usuario dentro de la tabala, pasando como parametro el id */}
                     <Link to={`/edit/${usuario.id}`} className="btn btn-light"><i className="fa-solid fa-pencil"></i></Link>
+                     {/* boton para eliminar usuario haciendo uso del metodo deleteUsuario y pasando como parametro el id */}
                     <button onClick={ () => { deleteUsuario(usuario.id) } } className="btn btn-danger"><i className="fa-solid fa-trash"></i></button>
                   </td>
                 </tr>                
