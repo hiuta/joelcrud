@@ -1,7 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 import Home from './components/home';
 import Dashboard from './components/dashboard';
 import Header from './components/header';
